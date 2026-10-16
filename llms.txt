@@ -1,0 +1,40 @@
+# AnswerCost
+> Answering service vs AI receptionist cost comparison by trade. AI-generated content, sourced public prices, last checked 2026-10-16.
+
+## Pages
+- [Cost calculator](https://nickferrantelive.github.io/answercost/calculator/)
+- [Vendor directory](https://nickferrantelive.github.io/answercost/vendors/)
+- [Answering service for law firms vs AI receptionist](https://nickferrantelive.github.io/answercost/trades/law-firms/)
+- [Answering service for HVAC companies vs AI receptionist](https://nickferrantelive.github.io/answercost/trades/hvac/)
+- [Answering service for property managers vs AI receptionist](https://nickferrantelive.github.io/answercost/trades/property-management/)
+- [Answering service for plumbers vs AI receptionist](https://nickferrantelive.github.io/answercost/trades/plumbers/)
+- [Answering service for dental offices vs AI receptionist](https://nickferrantelive.github.io/answercost/trades/dentists/)
+- [Answering service for auto repair shops vs AI receptionist](https://nickferrantelive.github.io/answercost/trades/automotive/)
+- [Answering service for real estate agents vs AI receptionist](https://nickferrantelive.github.io/answercost/trades/real-estate/)
+- [Answering service for salons vs AI receptionist](https://nickferrantelive.github.io/answercost/trades/salons/)
+- [Answering service for veterinary clinics vs AI receptionist](https://nickferrantelive.github.io/answercost/trades/veterinarians/)
+- [Answering service for electricians vs AI receptionist](https://nickferrantelive.github.io/answercost/trades/electricians/)
+- [Answering service for roofing companies vs AI receptionist](https://nickferrantelive.github.io/answercost/trades/roofers/)
+- [Answering service for medical offices vs AI receptionist](https://nickferrantelive.github.io/answercost/trades/medical-offices/)
+
+## Published starting prices
+- Rosie: From $49/mo for 250 minutes (Minute bundles). Source: https://thesnowmedia.com/resources/ai-receptionist-plumbing-hvac-options-compared/, https://justcall.io/blog/best-ai-receptionist-for-hvac.html
+- Smith.ai AI Receptionist: Free tier with 25 calls; AI Receptionist Pro $150/mo (Per call). Source: https://thesnowmedia.com/resources/ai-receptionist-plumbing-hvac-options-compared/, https://justcall.io/blog/best-ai-receptionist-for-hvac.html
+- Sameday AI: From $449/mo for 500 minutes (Minute bundles). Source: https://thesnowmedia.com/resources/ai-receptionist-plumbing-hvac-options-compared/
+- Avoca: No published price (demo-led) (Quote). Source: https://thesnowmedia.com/resources/ai-receptionist-plumbing-hvac-options-compared/
+- Goodcall: $79 to $249/mo (Billed per unique customer). Source: https://thesnowmedia.com/resources/ai-receptionist-plumbing-hvac-options-compared/, https://justcall.io/blog/best-ai-receptionist-for-hvac.html
+- My AI Front Desk: $79/mo billed annually; Business plan $99/mo (Flat plan plus credits). Source: https://justcall.io/blog/best-ai-receptionist-for-hvac.html, https://www.myaifrontdesk.com/affiliate
+- Dialzar: $29/mo (Plan). Source: https://justcall.io/blog/best-ai-receptionist-for-hvac.html
+- NextPhone: Flat plans from $199/mo, unlimited calls (Flat). Source: https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers
+- JustCall: $29 to $89/user/mo; AI quoted (Seats plus AI minutes). Source: https://justcall.io/blog/best-ai-receptionist-for-hvac.html
+- Phonely: Free for 100 minutes, then $50/mo (Plan). Source: https://www.cloudtalk.io/blog/best-ai-receptionist-for-salons-spas/
+- Trillet: $49/mo for 150 minutes (Minute bundle). Source: https://www.cloudtalk.io/blog/best-ai-receptionist-for-salons-spas/
+- CloudTalk: 50 free minutes, then EUR 99/mo (Plan). Source: https://www.cloudtalk.io/blog/best-ai-receptionist-for-salons-spas/
+- ViFi: $49, $149 or $349/mo (Plan plus usage). Source: https://vifi.us/partners/
+- Retell AI: $0.07 to $0.31/min, $10 free credit (Per minute (build it yourself)). Source: https://thesnowmedia.com/resources/ai-receptionist-plumbing-hvac-options-compared/, https://www.retellai.com/learn/voice-ai-platform-pricing-compared-what-you-are-actually-paying-for
+- Vapi: $0.05/min hosting plus model, voice and phone costs (Per minute (build it yourself)). Source: https://www.retellai.com/learn/voice-ai-platform-pricing-compared-what-you-are-actually-paying-for
+- Bland AI: From $0.14/min (Per minute (build it yourself)). Source: https://thesnowmedia.com/resources/ai-receptionist-plumbing-hvac-options-compared/
+- Synthflow: From $30,000/yr (Annual). Source: https://thesnowmedia.com/resources/ai-receptionist-plumbing-hvac-options-compared/
+- Abby Connect: From $165/mo; about $898 for 100 three-minute calls answered by a person (Live or hybrid answering service). Source: https://justcall.io/blog/best-ai-receptionist-for-hvac.html, https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers
+- PATLive: About $479 for 100 three-minute calls; $1,475 for 300 (Live answering service). Source: https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers
+- Smith.ai live receptionists: About $915 for 100 three-minute calls; $2,100 for 300 (Live answering service). Source: https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers
