@@ -1,0 +1,23 @@
+name: Pages preview
+on: { push: { branches: [main] }, workflow_dispatch: {} }
+permissions: { contents: read, pages: write, id-token: write }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm install
+      - run: rm -rf app/api
+      - run: npm run build
+        env: { GITHUB_PAGES: "true", NEXT_PUBLIC_SITE_URL: "https://nickferrantelive.github.io/answercost" }
+      - run: touch out/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: out }
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: { name: github-pages }
+    steps:
+      - uses: actions/deploy-pages@v4

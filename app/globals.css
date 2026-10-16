@@ -1,0 +1,9 @@
+body{font-family:system-ui,sans-serif;margin:0;color:#1a1a1a;line-height:1.55}
+header,main,footer{max-width:960px;margin:0 auto;padding:16px}
+header{display:flex;gap:16px;flex-wrap:wrap;align-items:center;border-bottom:1px solid #eee}
+header a{color:#1a1a1a;text-decoration:none}.brand{font-weight:800;font-size:1.2em;color:#0a6}
+table{border-collapse:collapse;width:100%;font-size:.92em}td,th{border:1px solid #ddd;padding:6px;text-align:left;vertical-align:top}
+.src a{margin-right:3px;font-size:.8em}.muted,small{color:#666}.label{background:#fff6d6;padding:8px;border-radius:6px;font-size:.9em}
+.calc .inputs{display:flex;gap:16px;flex-wrap:wrap;align-items:end}input{padding:6px;font-size:1em}button{padding:7px 14px;background:#0a6;color:#fff;border:0;border-radius:6px;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}.card{border:1px solid #ddd;border-radius:8px;padding:10px}
+.signup{border:1px solid #cde;padding:12px;border-radius:8px;margin:24px 0}footer{border-top:1px solid #eee;font-size:.85em;color:#555}
