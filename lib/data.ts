@@ -1,6 +1,6 @@
 // All facts below come from the public sources listed in SOURCES.
 // "checked" = date Vance (AI) read the source page. Prices can change; always verify on the vendor site.
-export const CHECKED = "2026-10-16";
+export const CHECKED = "2026-10-16"; // original research date; re-checked sources carry their own date
 
 export const SOURCES = {
   snow: { name: "The Snow Media, AI receptionist options for plumbing and HVAC compared (2026)", url: "https://thesnowmedia.com/resources/ai-receptionist-plumbing-hvac-options-compared/" },
@@ -13,8 +13,20 @@ export const SOURCES = {
   frontdesk: { name: "My AI Front Desk affiliate page (vendor)", url: "https://www.myaifrontdesk.com/affiliate" },
   vibehackers: { name: "Vibehackers, AI phone receptionist idea validation report", url: "https://vibehackers.io/ideas/ai-phone-receptionist-cbb9db4c" },
   credminds: { name: "Credminds, AI receptionist statistics 2026", url: "https://www.credminds.com/ai-receptionist-statistics" },
-} as const;
-export type SourceKey = keyof typeof SOURCES;
+  rosiePricing: { name: "Rosie pricing page (vendor)", url: "https://heyrosie.com/pricing", checked: "2026-10-17" },
+  goodcallPricing: { name: "Goodcall pricing page (vendor)", url: "https://www.goodcall.com/pricing", checked: "2026-10-17" },
+  frontdeskPricing: { name: "My AI Front Desk pricing page (vendor)", url: "https://www.myaifrontdesk.com/pricing", checked: "2026-10-17" },
+  nextphonePricing: { name: "NextPhone pricing page (vendor)", url: "https://www.getnextphone.com/pricing", checked: "2026-10-17" },
+  samedayPricing: { name: "Sameday pricing page (vendor)", url: "https://sameday.ai/pricing", checked: "2026-10-17" },
+  retellPricing: { name: "Retell AI pricing page (vendor)", url: "https://www.retellai.com/pricing", checked: "2026-10-17" },
+  phonelyPricing: { name: "Phonely pricing page (vendor)", url: "https://www.phonely.ai/pricing", checked: "2026-10-17" },
+  pr800: { name: "800.com press release, Oct 7, 2026 (GlobeNewswire)", url: "https://www.globenewswire.com/news-release/2026/10/07/3376512/0/en/800-com-launches-free-trial-of-ai-agents-for-small-businesses.html", checked: "2026-10-17" },
+  prKai: { name: "KaiCalls press release (openPR)", url: "https://www.openpr.com/news/4650141/kaicalls-launches-a-10-a-month-ai-secretary-for-the-calls-small", checked: "2026-10-17" },
+  prVpbx: { name: "VirtualPBX news, Oct 10, 2026 (vendor)", url: "https://www.virtualpbx.com/news/ai-employee-preview/", checked: "2026-10-17" },
+} as Record<string, { name: string; url: string; checked?: string }>;
+export type SourceKey = string;
+export const LAST_CHECKED = "2026-10-17";
+export const sourceChecked = (k: SourceKey) => SOURCES[k]?.checked || CHECKED;
 
 export type Vendor = {
   slug: string; name: string; kind: "ai" | "human" | "platform";
@@ -23,24 +35,27 @@ export type Vendor = {
   website: string;
   affiliateUrl?: string; // filled only after Nick joins a program
   hasPublicAffiliateProgram?: boolean;
-  calc?: { type: "bundle"; monthly: number; minutes: number } | { type: "flat"; monthly: number } | { type: "perMin"; low: number; high: number };
+  calc?: { type: "bundle"; monthly: number; minutes: number } | { type: "tiers"; tiers: { monthly: number; minutes: number }[] } | { type: "flat"; monthly: number } | { type: "perMin"; low: number; high: number };
 };
 
 export const VENDORS: Vendor[] = [
-  { slug: "rosie", name: "Rosie", kind: "ai", price: "From $49/mo for 250 minutes", model: "Minute bundles", notes: "Listed as a cheap after-hours message taker in JustCall's comparison.", source: ["snow", "justcall"], homeServices: true, website: "https://heyrosie.com", hasPublicAffiliateProgram: true, calc: { type: "bundle", monthly: 49, minutes: 250 } },
+  { slug: "rosie", name: "Rosie", kind: "ai", price: "$49/mo for 250 min, $149 for 1,000 min, $299 for 2,000 min", model: "Minute bundles", notes: "Listed as a cheap after-hours message taker in JustCall's comparison.", source: ["rosiePricing", "justcall"], homeServices: true, website: "https://heyrosie.com", hasPublicAffiliateProgram: true, calc: { type: "tiers", tiers: [{ monthly: 49, minutes: 250 }, { monthly: 149, minutes: 1000 }, { monthly: 299, minutes: 2000 }] } },
   { slug: "smith-ai", name: "Smith.ai AI Receptionist", kind: "ai", price: "Free tier with 25 calls; AI Receptionist Pro $150/mo", model: "Per call", notes: "Offers human escalation. Native ServiceTitan and Housecall Pro per JustCall.", source: ["snow", "justcall"], homeServices: true, website: "https://smith.ai", hasPublicAffiliateProgram: true },
-  { slug: "sameday", name: "Sameday AI", kind: "ai", price: "From $449/mo for 500 minutes", model: "Minute bundles", notes: "Built for home services. ServiceTitan certified per The Snow Media.", source: ["snow"], homeServices: true, website: "https://sameday.ai", calc: { type: "bundle", monthly: 449, minutes: 500 } },
+  { slug: "sameday", name: "Sameday AI", kind: "ai", price: "$449/mo for 500 min, $789/mo for 1,000 min", model: "Minute bundles", notes: "Built for home services. ServiceTitan certified per The Snow Media.", source: ["samedayPricing", "snow"], homeServices: true, website: "https://sameday.ai", calc: { type: "tiers", tiers: [{ monthly: 449, minutes: 500 }, { monthly: 789, minutes: 1000 }] } },
   { slug: "avoca", name: "Avoca", kind: "ai", price: "No published price (demo-led)", model: "Quote", notes: "Aimed at larger ServiceTitan shops.", source: ["snow"], homeServices: true, website: "https://www.avoca.ai" },
-  { slug: "goodcall", name: "Goodcall", kind: "ai", price: "$79 to $249/mo", model: "Billed per unique customer", notes: "$79 per agent with unlimited minutes per The Snow Media.", source: ["snow", "justcall"], homeServices: true, salons: true, website: "https://www.goodcall.com", calc: { type: "flat", monthly: 79 } },
-  { slug: "my-ai-front-desk", name: "My AI Front Desk", kind: "ai", price: "$79/mo billed annually; Business plan $99/mo", model: "Flat plan plus credits", notes: "Voice, text, chat and email on one plan per JustCall.", source: ["justcall", "frontdesk"], homeServices: true, salons: true, website: "https://www.myaifrontdesk.com", hasPublicAffiliateProgram: true, calc: { type: "flat", monthly: 99 } },
+  { slug: "goodcall", name: "Goodcall", kind: "ai", price: "$79/mo (100 unique customers), $129 (500), $299 (2,000); then 79, 26 or 15 cents per extra customer", model: "Billed per unique customer", notes: "Goodcall estimates about 150, 750 and 3,000 calls a month for those tiers.", source: ["goodcallPricing"], homeServices: true, salons: true, website: "https://www.goodcall.com", calc: { type: "flat", monthly: 79 } },
+  { slug: "my-ai-front-desk", name: "My AI Front Desk", kind: "ai", price: "$99/mo, or $79/mo billed annually, with 200 voice minutes", model: "Plan plus minutes", notes: "Voice, text, chat and email on one plan per JustCall.", source: ["frontdeskPricing", "justcall"], homeServices: true, salons: true, website: "https://www.myaifrontdesk.com", hasPublicAffiliateProgram: true, calc: { type: "tiers", tiers: [{ monthly: 99, minutes: 200 }] } },
   { slug: "dialzar", name: "Dialzar", kind: "ai", price: "$29/mo", model: "Plan", notes: "Listed for very low call volume, Spanish on every tier.", source: ["justcall"], homeServices: true, website: "" },
-  { slug: "nextphone", name: "NextPhone", kind: "ai", price: "Flat plans from $199/mo, unlimited calls", model: "Flat", notes: "Source is NextPhone's own blog.", source: ["nextphone"], homeServices: true, website: "https://www.getnextphone.com", calc: { type: "flat", monthly: 199 } },
+  { slug: "nextphone", name: "NextPhone", kind: "ai", price: "$199/mo (self setup), $299 (done for you), $599 (Scale); unlimited calls", model: "Flat", notes: "", source: ["nextphonePricing", "nextphone"], homeServices: true, website: "https://www.getnextphone.com", calc: { type: "flat", monthly: 199 } },
   { slug: "justcall", name: "JustCall", kind: "ai", price: "$29 to $89/user/mo; AI quoted", model: "Seats plus AI minutes", notes: "Source is JustCall's own blog.", source: ["justcall"], homeServices: true, website: "https://justcall.io" },
-  { slug: "phonely", name: "Phonely", kind: "ai", price: "Free for 100 minutes, then $50/mo", model: "Plan", notes: "Listed as cheapest paid entry for solo stylists.", source: ["cloudtalk"], salons: true, website: "https://www.phonely.ai" },
+  { slug: "phonely", name: "Phonely", kind: "ai", price: "Free 100 min; $50/mo for 200 min; $150/mo for 650 min (about a third less billed annually)", model: "Minute plans", notes: "Listed as cheapest paid entry for solo stylists by CloudTalk.", source: ["phonelyPricing", "cloudtalk"], salons: true, website: "https://www.phonely.ai", calc: { type: "tiers", tiers: [{ monthly: 0, minutes: 100 }, { monthly: 50, minutes: 200 }, { monthly: 150, minutes: 650 }] } },
   { slug: "trillet", name: "Trillet", kind: "ai", price: "$49/mo for 150 minutes", model: "Minute bundle", notes: "28-day money-back per CloudTalk.", source: ["cloudtalk"], salons: true, website: "https://www.trillet.ai", calc: { type: "bundle", monthly: 49, minutes: 150 } },
   { slug: "cloudtalk", name: "CloudTalk", kind: "ai", price: "50 free minutes, then EUR 99/mo", model: "Plan", notes: "Full phone system. Source is CloudTalk's own blog.", source: ["cloudtalk"], salons: true, website: "https://www.cloudtalk.io" },
   { slug: "vifi", name: "ViFi", kind: "ai", price: "$49, $149 or $349/mo", model: "Plan plus usage", notes: "Three plans listed on the ViFi partners page.", source: ["vifi"], website: "https://vifi.us", hasPublicAffiliateProgram: true },
-  { slug: "retell", name: "Retell AI", kind: "platform", price: "$0.07 to $0.31/min, $10 free credit", model: "Per minute (build it yourself)", notes: "Developer platform with no-code studio. Telephony and add-ons extra.", source: ["snow", "retell"], website: "https://www.retellai.com", hasPublicAffiliateProgram: true, calc: { type: "perMin", low: 0.07, high: 0.31 } },
+  { slug: "800-ai-agents", name: "800.com AI Agents", kind: "ai", price: "AI Starter $59/mo ($49 billed annually); AI Grow $149/mo ($124 annually); 7-day trial with 250 minutes", model: "Plan", notes: "Launched Oct 7, 2026. Minutes included per plan not stated in the release.", source: ["pr800"], homeServices: true, salons: true, website: "https://www.800.com/ai-agents" },
+  { slug: "kaicalls", name: "KaiCalls", kind: "ai", price: "Kai Backup $10/mo for about 20 calls; Kai Answering $79/mo for about 150 calls", model: "Plan by calls", notes: "Backup works by forwarding missed calls from your existing phone. Source is a press release.", source: ["prKai"], homeServices: true, salons: true, website: "https://www.kaicalls.com/backup" },
+  { slug: "virtualpbx", name: "VirtualPBX AI Employee", kind: "ai", price: "$99/mo per AI Employee", model: "Add-on to VirtualPBX phone service", notes: "New customers also get Smarter Voice phone service for up to five people, per the vendor.", source: ["prVpbx"], website: "https://www.virtualpbx.com/ai", calc: { type: "flat", monthly: 99 } },
+  { slug: "retell", name: "Retell AI", kind: "platform", price: "$0.07 to $0.31/min, $10 free credit", model: "Per minute (build it yourself)", notes: "Developer platform with no-code studio. Telephony and add-ons extra.", source: ["retellPricing", "retell"], website: "https://www.retellai.com", hasPublicAffiliateProgram: true, calc: { type: "perMin", low: 0.07, high: 0.31 } },
   { slug: "vapi", name: "Vapi", kind: "platform", price: "$0.05/min hosting plus model, voice and phone costs", model: "Per minute (build it yourself)", notes: "Vapi's calculator estimates $82 to $129 per 1,000 minutes per Retell's comparison.", source: ["retell"], website: "https://vapi.ai", calc: { type: "perMin", low: 0.082, high: 0.129 } },
   { slug: "bland", name: "Bland AI", kind: "platform", price: "From $0.14/min", model: "Per minute (build it yourself)", notes: "", source: ["snow"], website: "https://www.bland.ai", calc: { type: "perMin", low: 0.14, high: 0.14 } },
   { slug: "synthflow", name: "Synthflow", kind: "platform", price: "From $30,000/yr", model: "Annual", notes: "", source: ["snow"], website: "https://synthflow.ai" },

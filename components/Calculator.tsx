@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { track } from "@vercel/analytics";
-import { VENDORS, TRADES, HUMAN_RECEPTIONIST, SOURCES, CHECKED, vendorsForTrade, Vendor } from "@/lib/data";
+import { VENDORS, TRADES, HUMAN_RECEPTIONIST, SOURCES, LAST_CHECKED as CHECKED, vendorsForTrade, Vendor } from "@/lib/data";
 const fmt = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
 type Row = { v: Vendor; low: number | null; label: string; note: string; ready: boolean };
 function rowFor(v: Vendor, total: number): Row | null {
@@ -10,6 +10,9 @@ function rowFor(v: Vendor, total: number): Row | null {
   if (c.type === "bundle") return total <= c.minutes
     ? { v, low: c.monthly, label: fmt(c.monthly), note: `Fits the ${c.minutes}-minute plan`, ready: true }
     : { v, low: null, label: "Over plan", note: `Needs more than ${c.minutes} min; larger plan not published in our source`, ready: true };
+  if (c.type === "tiers") { const tier = c.tiers.find(x => total <= x.minutes); return tier
+    ? { v, low: tier.monthly, label: tier.monthly === 0 ? "$0" : fmt(tier.monthly), note: `Fits the ${tier.minutes.toLocaleString("en-US")}-minute plan`, ready: true }
+    : { v, low: null, label: "Over plan", note: `Needs more than ${c.tiers[c.tiers.length - 1].minutes.toLocaleString("en-US")} min; larger plan not published`, ready: true }; }
   return { v, low: total * c.low, label: c.low === c.high ? fmt(total * c.low) : `${fmt(total * c.low)} to ${fmt(total * c.high)}`, note: "Usage only. You build and run the agent; phone and setup extra", ready: false };
 }
 export default function Calculator({ initialTrade = "", compact = false }: { initialTrade?: string; compact?: boolean }) {

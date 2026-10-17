@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { TRADES, SITE, SOURCES, CHECKED, VENDORS } from "@/lib/data";
+import { TRADES, SITE, SOURCES, LAST_CHECKED, VENDORS } from "@/lib/data";
 import Signup from "@/components/Signup";
 import Calculator from "@/components/Calculator";
 import { JsonLd } from "@/components/Src";
@@ -13,7 +13,7 @@ export default function Home() {
           <h1>Stop overpaying to answer your phone.</h1>
           <p className="lede">See what an AI receptionist costs next to a live answering service for your call volume and trade. Published prices start around $29 to $49 a month for AI, while live services run hundreds for 100 calls.</p>
           <ul className="trust" data-move="Trust: legitimate proof only, no testimonials">
-            <li>{VENDORS.length} options compared</li><li>Every price sourced</li><li>Checked {CHECKED}</li><li>Sorted by price, not payment</li>
+            <li>{VENDORS.length} options compared</li><li>Every price sourced</li><li>Updated {LAST_CHECKED}</li><li>Sorted by price, not payment</li>
           </ul>
           <p className="muted" style={{ fontSize: ".9rem" }}>Sources: <a href={SOURCES.nextphone.url} target="_blank" rel="noopener nofollow">NextPhone</a>, <a href={SOURCES.justcall.url} target="_blank" rel="noopener nofollow">JustCall</a>, <a href={SOURCES.snow.url} target="_blank" rel="noopener nofollow">The Snow Media</a> and <Link href="/about/">more</Link>.</p>
         </div>

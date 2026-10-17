@@ -1,8 +1,8 @@
-import { TRADES, VENDORS, SOURCES, SITE, CHECKED } from "@/lib/data";
+import { TRADES, VENDORS, SOURCES, SITE, LAST_CHECKED } from "@/lib/data";
 export const dynamic = "force-static";
 export function GET() {
   const t = `# AnswerCost
-> Answering service vs AI receptionist cost comparison by trade. AI-generated content, sourced public prices, last checked ${CHECKED}.
+> Answering service vs AI receptionist cost comparison by trade. AI-generated content, sourced public prices, last updated ${LAST_CHECKED}.
 
 ## Pages
 - [Cost calculator](${SITE.url}/calculator/)
