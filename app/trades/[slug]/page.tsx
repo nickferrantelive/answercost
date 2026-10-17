@@ -1,13 +1,14 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { TRADES, vendorsForTrade, SOURCES, CHECKED } from "@/lib/data";
+import { TRADES, vendorsForTrade, CHECKED } from "@/lib/data";
 import { Src, JsonLd } from "@/components/Src";
 import Signup from "@/components/Signup";
+import Calculator from "@/components/Calculator";
 export const dynamicParams = false;
 export function generateStaticParams() { return TRADES.map(t => ({ slug: t.slug })); }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params; const t = TRADES.find(x => x.slug === slug)!;
-  return { title: `Answering service for ${t.plural} vs AI receptionist: cost compared`, description: `Compare live answering services and AI receptionists for ${t.plural}, with sourced prices checked ${CHECKED}.`, alternates: { canonical: `/trades/${t.slug}/` } };
+  return { title: `Answering service for ${t.plural} vs AI receptionist: cost compared`, description: `Cheapest AI receptionist vs live answering service for ${t.plural}, using published prices checked ${CHECKED}. Run your own call volume.`, alternates: { canonical: `/trades/${t.slug}/` } };
 }
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params; const t = TRADES.find(x => x.slug === slug); if (!t) notFound();
@@ -19,17 +20,26 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   ];
   return (<>
     <JsonLd data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }} />
-    <h1>Answering service for {t.plural} vs AI receptionist</h1>
-    <p className="muted">Last checked {CHECKED}. Prices are published starting prices from linked sources, not quotes.</p>
-    {t.searches && <p>Search demand: about {t.searches.toLocaleString("en-US")} US searches a month, average click cost {t.cpc}. Top keyword: {t.topKeyword}. <Src keys={[t.source]} /></p>}
-    {t.extra && <p>{t.extra}</p>}
-    <h2>Options and published prices</h2>
-    <table><thead><tr><th>Option</th><th>Type</th><th>Published price</th><th>Pricing model</th><th>Source</th></tr></thead><tbody>
-      {vs.map(v => <tr key={v.slug}><td>{v.name}</td><td>{v.kind === "human" ? "Live answering service" : "AI receptionist"}</td><td>{v.price}</td><td>{v.model}</td><td><Src keys={v.source} /></td></tr>)}
-    </tbody></table>
-    <p><Link href="/calculator/">Run your own call volume in the calculator</Link>.</p>
+    <section className="hero" data-move="Recognition for this trade + the tool, above the fold">
+      <div className="hero-grid">
+        <div>
+          <p className="tag">{t.name}</p>
+          <h1>Answering service for {t.plural} vs AI receptionist</h1>
+          <p className="lede">Enter your calls per month and see the cheapest published option for {t.plural}, next to what a live answering service costs.</p>
+          <ul className="trust"><li>{vs.length} options for {t.plural}</li><li>Sourced prices</li><li>Checked {CHECKED}</li></ul>
+          {t.searches && <p className="muted" style={{ fontSize: ".92rem" }}>About {t.searches.toLocaleString("en-US")} US searches a month for this, and advertisers pay {t.cpc} per click. <Src keys={[t.source]} /></p>}
+          {t.extra && <p className="label">{t.extra}</p>}
+        </div>
+        <Calculator initialTrade={t.slug} compact />
+      </div>
+    </section>
+    <h2>Published prices for {t.plural}</h2>
+    <div className="tablewrap"><table><thead><tr><th>Option</th><th>Type</th><th>Published price</th><th className="hide-sm">Model</th><th>Source</th></tr></thead><tbody>
+      {vs.map(v => <tr key={v.slug}><td><b>{v.name}</b></td><td>{v.kind === "human" ? "Live service" : "AI"}</td><td>{v.price}</td><td className="hide-sm">{v.model}</td><td><Src keys={v.source} /></td></tr>)}
+    </tbody></table></div>
+    <p><Link className="btn" href={`/calculator/?trade=${t.slug}`}>See the cheapest option for my volume</Link></p>
     <h2>FAQ</h2>
     {faq.map(f => <div key={f.q}><h3>{f.q}</h3><p>{f.a}</p></div>)}
-    <Signup />
+    <Signup heading={`Get price changes for ${t.plural}, monthly`} />
   </>);
 }

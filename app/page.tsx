@@ -1,17 +1,35 @@
 import Link from "next/link";
-import { TRADES, SITE, SOURCES } from "@/lib/data";
+import { TRADES, SITE, SOURCES, CHECKED, VENDORS } from "@/lib/data";
 import Signup from "@/components/Signup";
+import Calculator from "@/components/Calculator";
 import { JsonLd } from "@/components/Src";
 export default function Home() {
   return (<>
     <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", name: SITE.name, url: SITE.url }} />
-    <h1>Answering service vs AI receptionist: what it costs for your trade</h1>
-    <p>{SITE.tagline} Every price on this site links to a public source with the date we checked it.</p>
-    <p><Link href="/calculator/"><button>Open the cost calculator</button></Link></p>
-    <h2>Why this matters</h2>
-    <p>Owners still mostly search for an answering service, not AI: about 78% of typical-month searches across 12 industries asked for an answering service, and about 11% for an AI receptionist <a href={SOURCES.teamshift.url} target="_blank" rel="noopener nofollow">(Teamshift)</a>. Published AI receptionist plans start around $29 to $49 a month, while live answering services run hundreds of dollars for 100 calls <a href={SOURCES.nextphone.url} target="_blank" rel="noopener nofollow">(NextPhone table)</a>.</p>
-    <h2>Pick your trade</h2>
-    <div className="grid">{TRADES.map(t => (<Link key={t.slug} className="card" href={`/trades/${t.slug}/`}><b>{t.name}</b><br /><small>Answering service vs AI receptionist</small></Link>))}</div>
+    <section className="hero" data-move="Recognition + tool-page engine: one question, answered on the spot">
+      <div className="hero-grid">
+        <div>
+          <h1>Stop overpaying to answer your phone.</h1>
+          <p className="lede">See what an AI receptionist costs next to a live answering service for your call volume and trade. Published prices start around $29 to $49 a month for AI, while live services run hundreds for 100 calls.</p>
+          <ul className="trust" data-move="Trust: legitimate proof only, no testimonials">
+            <li>{VENDORS.length} options compared</li><li>Every price sourced</li><li>Checked {CHECKED}</li><li>Sorted by price, not payment</li>
+          </ul>
+          <p className="muted" style={{ fontSize: ".9rem" }}>Sources: <a href={SOURCES.nextphone.url} target="_blank" rel="noopener nofollow">NextPhone</a>, <a href={SOURCES.justcall.url} target="_blank" rel="noopener nofollow">JustCall</a>, <a href={SOURCES.snow.url} target="_blank" rel="noopener nofollow">The Snow Media</a> and <Link href="/about/">more</Link>.</p>
+        </div>
+        <Calculator compact />
+      </div>
+    </section>
+    <section id="trades" data-move="Route by situation: each trade gets its own page and CTA">
+      <h2>Pick your trade, see the cheapest option</h2>
+      <div className="grid">{TRADES.map(t => (<Link key={t.slug} className="tcard" href={`/trades/${t.slug}/`}><b>{t.name}</b><span>Compare costs &rarr;</span></Link>))}</div>
+    </section>
+    <section data-move="Disqualify: honest fit check instead of fake scarcity">
+      <h2>Who this is for</h2>
+      <div className="cols">
+        <div className="card"><h3>Good fit</h3><p>Owners of small service businesses who miss calls on the job and want a phone answered without paying for a full-time receptionist.</p></div>
+        <div className="card not"><h3>Not a fit</h3><p>Large call centers, or anyone who needs a custom quote today. We show published starting prices, not negotiated deals.</p></div>
+      </div>
+    </section>
     <Signup />
   </>);
 }

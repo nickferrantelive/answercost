@@ -6,6 +6,7 @@ export function GET() {
 
 ## Pages
 - [Cost calculator](${SITE.url}/calculator/)
+- [Price sheet](${SITE.url}/price-sheet/)
 - [Vendor directory](${SITE.url}/vendors/)
 ${TRADES.map(x => `- [Answering service for ${x.plural} vs AI receptionist](${SITE.url}/trades/${x.slug}/)`).join("\n")}
 

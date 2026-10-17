@@ -1,31 +1,47 @@
 "use client";
-import { useState } from "react";
-import { VENDORS, HUMAN_RECEPTIONIST, SOURCES } from "@/lib/data";
+import { useEffect, useMemo, useState } from "react";
+import { VENDORS, TRADES, HUMAN_RECEPTIONIST, SOURCES, CHECKED, vendorsForTrade, Vendor } from "@/lib/data";
 const fmt = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
-export default function Calculator() {
+type Row = { v: Vendor; low: number | null; label: string; note: string; ready: boolean };
+function rowFor(v: Vendor, total: number): Row | null {
+  const c = v.calc; if (!c) return null;
+  if (c.type === "flat") return { v, low: c.monthly, label: "from " + fmt(c.monthly), note: "Starting plan; check plan limits", ready: true };
+  if (c.type === "bundle") return total <= c.minutes
+    ? { v, low: c.monthly, label: fmt(c.monthly), note: `Fits the ${c.minutes}-minute plan`, ready: true }
+    : { v, low: null, label: "Over plan", note: `Needs more than ${c.minutes} min; larger plan not published in our source`, ready: true };
+  return { v, low: total * c.low, label: c.low === c.high ? fmt(total * c.low) : `${fmt(total * c.low)} to ${fmt(total * c.high)}`, note: "Usage only. You build and run the agent; phone and setup extra", ready: false };
+}
+export default function Calculator({ initialTrade = "", compact = false }: { initialTrade?: string; compact?: boolean }) {
   const [calls, setCalls] = useState(100);
   const [mins, setMins] = useState(3);
+  const [trade, setTrade] = useState(initialTrade);
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    if (p.get("calls")) setCalls(Math.max(1, +p.get("calls")!));
+    if (p.get("mins")) setMins(Math.max(1, +p.get("mins")!));
+    if (p.get("trade")) setTrade(p.get("trade")!);
+  }, []);
   const total = calls * mins;
-  const rows = VENDORS.filter(v => v.calc).map(v => {
-    const c = v.calc!;
-    let cost = "", note = "";
-    if (c.type === "flat") { cost = "from " + fmt(c.monthly); note = "Flat starting plan; check limits"; }
-    if (c.type === "bundle") { if (total <= c.minutes) { cost = fmt(c.monthly); note = `Fits the ${c.minutes}-minute plan`; } else { cost = "over plan"; note = `Needs more than ${c.minutes} minutes; overage or bigger plan not shown here`; } }
-    if (c.type === "perMin") { cost = c.low === c.high ? fmt(total * c.low) : `${fmt(total * c.low)} to ${fmt(total * c.high)}`; note = "Usage only; phone number, setup and build time extra"; }
-    return { v, cost, note };
-  });
+  const t = TRADES.find(x => x.slug === trade);
+  const pool = t ? [...vendorsForTrade(t), ...VENDORS.filter(v => v.kind === "platform")] : VENDORS;
+  const rows = useMemo(() => pool.map(v => rowFor(v, total)).filter(Boolean).sort((a, b) => (a!.low ?? 1e9) - (b!.low ?? 1e9)) as Row[], [pool, total]);
+  const best = rows.find(r => r.ready && r.low !== null);
   return (
-    <div className="calc">
+    <div className="calc card" id="calculator">
       <div className="inputs">
-        <label>Calls per month <input type="number" min={1} value={calls} onChange={e => setCalls(Math.max(1, +e.target.value))} /></label>
-        <label>Average minutes per call <input type="number" min={1} value={mins} onChange={e => setMins(Math.max(1, +e.target.value))} /></label>
-        <p><b>{total.toLocaleString("en-US")}</b> minutes per month</p>
+        <label>Calls per month<input type="number" inputMode="numeric" min={1} value={calls} onChange={e => setCalls(Math.max(1, +e.target.value || 1))} /></label>
+        <label>Minutes per call<input type="number" inputMode="numeric" min={1} value={mins} onChange={e => setMins(Math.max(1, +e.target.value || 1))} /></label>
+        <label style={{ gridColumn: "1 / -1" }}>Your trade<select value={trade} onChange={e => setTrade(e.target.value)}><option value="">All businesses</option>{TRADES.map(x => <option key={x.slug} value={x.slug}>{x.name}</option>)}</select></label>
       </div>
-      <table><thead><tr><th>Option</th><th>Estimated monthly cost</th><th>Note</th><th>Source</th></tr></thead><tbody>
-        {rows.map(({ v, cost, note }) => (<tr key={v.slug}><td>{v.name}</td><td>{cost}</td><td>{note}</td><td>{v.source.map(s => <a key={s} href={SOURCES[s].url} target="_blank" rel="noopener nofollow">link </a>)}</td></tr>))}
-        <tr><td>Human receptionist (salon average)</td><td>{fmt(HUMAN_RECEPTIONIST.monthly)}</td><td>{HUMAN_RECEPTIONIST.note}</td><td><a href={SOURCES.cloudtalk.url} target="_blank" rel="noopener nofollow">link</a></td></tr>
-      </tbody></table>
-      <p className="muted">Live answering services at 100 three-minute calls a month, per NextPhone's Oct 5, 2026 table: PATLive about $479, Abby Connect (person) about $898, Smith.ai live about $915. These are estimates from published prices, not quotes. Verify on each vendor site.</p>
+      <div className="result" aria-live="polite">
+        <div className="muted">{total.toLocaleString("en-US")} minutes a month. Cheapest ready-made AI receptionist that fits:</div>
+        {best ? <div><span className="big">{best.label}/mo</span> <b>{best.v.name}</b> <small>({best.v.price})</small></div> : <div><b>No published starting plan fits this volume.</b> Compare the full table.</div>}
+        <div className="muted" style={{ marginTop: 6 }}>For comparison, live answering services cost about $479 to $915 for 100 three-minute calls (published prices, <a href={SOURCES.nextphone.url} target="_blank" rel="noopener nofollow">NextPhone table</a>). A salon receptionist averages {fmt(HUMAN_RECEPTIONIST.monthly)}/mo (<a href={SOURCES.cloudtalk.url} target="_blank" rel="noopener nofollow">source</a>).</div>
+      </div>
+      {!compact && <div className="tablewrap"><table><thead><tr><th>Option</th><th>Est. monthly</th><th className="hide-sm">Note</th><th>Source</th><th></th></tr></thead><tbody>
+        {rows.map(r => { const href = r.v.affiliateUrl || r.v.website; return (<tr key={r.v.slug} className={r === best ? "best" : ""}><td><b>{r.v.name}</b><br /><span className="tag">{r.ready ? "Ready-made" : "Build it yourself"}</span></td><td>{r.label}</td><td className="hide-sm">{r.note}</td><td className="src">{r.v.source.map((s, i) => <a key={s} href={SOURCES[s].url} target="_blank" rel="noopener nofollow">[{i + 1}]</a>)}</td><td>{href && <a className="btn sm ghost" href={href} target="_blank" rel={r.v.affiliateUrl ? "sponsored noopener" : "noopener nofollow"}>Visit</a>}</td></tr>); })}
+      </tbody></table></div>}
+      <p className="muted" style={{ fontSize: ".85rem", marginBottom: 0 }}>Published starting prices, checked {CHECKED}. Estimates, not quotes. Overages and add-ons not modeled. {compact && <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/calculator/?calls=${calls}&mins=${mins}${trade ? "&trade=" + trade : ""}`}>See every option in the full table</a>}</p>
     </div>
   );
 }
