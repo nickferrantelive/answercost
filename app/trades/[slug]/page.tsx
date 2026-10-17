@@ -4,6 +4,7 @@ import { TRADES, vendorsForTrade, CHECKED } from "@/lib/data";
 import { Src, JsonLd } from "@/components/Src";
 import Signup from "@/components/Signup";
 import Calculator from "@/components/Calculator";
+import TrackLink from "@/components/TrackLink";
 export const dynamicParams = false;
 export function generateStaticParams() { return TRADES.map(t => ({ slug: t.slug })); }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -37,7 +38,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     <div className="tablewrap"><table><thead><tr><th>Option</th><th>Type</th><th>Published price</th><th className="hide-sm">Model</th><th>Source</th></tr></thead><tbody>
       {vs.map(v => <tr key={v.slug}><td><b>{v.name}</b></td><td>{v.kind === "human" ? "Live service" : "AI"}</td><td>{v.price}</td><td className="hide-sm">{v.model}</td><td><Src keys={v.source} /></td></tr>)}
     </tbody></table></div>
-    <p><Link className="btn" href={`/calculator/?trade=${t.slug}`}>See the cheapest option for my volume</Link></p>
+    <p><TrackLink className="btn" href={`/calculator/?trade=${t.slug}`} event="cta_click" props={{ cta: "trade_see_cheapest", trade: t.slug }}>See the cheapest option for my volume</TrackLink></p>
     <h2>FAQ</h2>
     {faq.map(f => <div key={f.q}><h3>{f.q}</h3><p>{f.a}</p></div>)}
     <Signup heading={`Get price changes for ${t.plural}, monthly`} />

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { track } from "@vercel/analytics";
 const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
 export default function Signup({ heading = "Get the monthly AI receptionist price-change report" }: { heading?: string }) {
   const [msg, setMsg] = useState<React.ReactNode>("");
@@ -11,6 +12,7 @@ export default function Signup({ heading = "Get the monthly AI receptionist pric
     try {
       const r = await fetch(base + "/api/subscribe/", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email }) });
       const j = await r.json().catch(() => ({}));
+      if (r.ok) track("newsletter_signup", { page: location.pathname });
       setMsg(r.ok ? <>You are in. The first report goes out with the next monthly price check. {sheet}.</> : r.status === 400 ? j.error : <>Email signup opens soon. Meanwhile, the full price sheet is free: {sheet}.</>);
     } catch { setMsg(<>Email signup opens soon. {sheet}.</>); }
     setBusy(false);

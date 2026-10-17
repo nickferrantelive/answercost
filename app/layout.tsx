@@ -3,6 +3,9 @@ import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { SITE } from "@/lib/data";
 import ReviewMode from "@/components/ReviewMode";
+import TrackLink from "@/components/TrackLink";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: { default: "AnswerCost: Answering service vs AI receptionist cost, by trade", template: "%s | AnswerCost" },
@@ -16,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <div className="topbar"><div className="wrap">
       <Link className="brand" href="/">Answer<span>Cost</span></Link>
       <nav aria-label="Main"><Link href="/calculator/">Calculator</Link><Link href="/#trades">Trades</Link><Link href="/vendors/">Vendors</Link><Link href="/price-sheet/">Price sheet</Link><Link href="/sponsor/">For vendors</Link></nav>
-      <Link className="btn sm navcta" href="/calculator/">Find my cheapest option</Link>
+      <TrackLink className="btn sm navcta" href="/calculator/" event="cta_click" props={{ cta: "nav_find_cheapest" }}>Find my cheapest option</TrackLink>
     </div></div>
     <main id="main" className="wrap">{children}</main>
     <footer><div className="wrap">
@@ -24,5 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <p>Neutral by design: listings are sorted by price, not payment. Some links may become affiliate links and sponsored spots are always labeled. <Link href="/about/">Disclosure and sources</Link> · <Link href="/newsletter/">Monthly report</Link> · <Link href="/sponsor/">Advertise</Link></p>
     </div></footer>
     <ReviewMode />
+    <Analytics />
+    {process.env.NEXT_PUBLIC_SPEED_INSIGHTS === "1" && <SpeedInsights />}
   </body></html>);
 }

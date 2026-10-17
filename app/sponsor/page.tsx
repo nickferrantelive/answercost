@@ -1,4 +1,5 @@
 import Link from "next/link";
+import TrackLink from "@/components/TrackLink";
 import { SITE, SOURCES, TRADES } from "@/lib/data";
 export const metadata = { title: "Advertise to owners comparing AI receptionists", description: "Sponsor placements on AnswerCost trade pages, calculator and monthly price report. Labeled, neutral, priced flat." };
 const total = TRADES.filter(t => t.source === "teamshift").reduce((a, t) => a + (t.searches || 0), 0);
@@ -26,7 +27,7 @@ export default function Page() {
     <h2>What we will not sell</h2>
     <ul className="not"><li>Rank. Tables stay sorted by published price.</li><li>Edits to your price or a competitor's. Prices come from public sources only.</li><li>Unlabeled placements or fake reviews.</li></ul>
     <h2>Book a slot</h2>
-    {link ? <p><a className="btn" href={link}>Book a sponsor slot</a></p> : <p className="label">Checkout opens soon (Stripe payment link placeholder: NEXT_PUBLIC_STRIPE_SPONSOR_LINK). Placements start once checkout is live.</p>}
+    {link ? <p><TrackLink className="btn" href={link} external rel="noopener" event="sponsor_cta_click" props={{ cta: "book_slot" }}>Book a sponsor slot</TrackLink></p> : <p className="label">Checkout opens soon (Stripe payment link placeholder: NEXT_PUBLIC_STRIPE_SPONSOR_LINK). Placements start once checkout is live.</p>}
     <p className="muted">Questions about fit? See our <Link href="/about/">disclosure</Link>.</p>
   </>);
 }

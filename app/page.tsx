@@ -3,6 +3,7 @@ import { TRADES, SITE, SOURCES, CHECKED, VENDORS } from "@/lib/data";
 import Signup from "@/components/Signup";
 import Calculator from "@/components/Calculator";
 import { JsonLd } from "@/components/Src";
+import TrackLink from "@/components/TrackLink";
 export default function Home() {
   return (<>
     <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", name: SITE.name, url: SITE.url }} />
@@ -21,7 +22,7 @@ export default function Home() {
     </section>
     <section id="trades" data-move="Route by situation: each trade gets its own page and CTA">
       <h2>Pick your trade, see the cheapest option</h2>
-      <div className="grid">{TRADES.map(t => (<Link key={t.slug} className="tcard" href={`/trades/${t.slug}/`}><b>{t.name}</b><span>Compare costs &rarr;</span></Link>))}</div>
+      <div className="grid">{TRADES.map(t => (<TrackLink key={t.slug} className="tcard" href={`/trades/${t.slug}/`} event="cta_click" props={{ cta: "home_trade_card", trade: t.slug }}><b>{t.name}</b><span>Compare costs &rarr;</span></TrackLink>))}</div>
     </section>
     <section data-move="Disqualify: honest fit check instead of fake scarcity">
       <h2>Who this is for</h2>
