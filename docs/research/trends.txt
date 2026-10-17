@@ -1,0 +1,26 @@
+ai receptionist first3mo avg 0.6 last3mo avg 0.5 peak 2
+ai voice agent first3mo avg 0.9 last3mo avg 0.4 peak 2
+openclaw first3mo avg 0.0 last3mo avg 3.8 peak 100
+hermes agent first3mo avg 0.0 last3mo avg 2.7 peak 12
+mcp server first3mo avg 4.6 last3mo avg 3.7 peak 18
+ai receptionist first3mo avg 16.7 last3mo avg 18.9 peak 55
+free ai credits first3mo avg 17.5 last3mo avg 19.9 peak 77
+chatgpt plus vs first3mo avg 40.5 last3mo avg 13.5 peak 100
+ai tools for realtors first3mo avg 0.0 last3mo avg 0.0 peak 2
+ai for etsy first3mo avg 22.0 last3mo avg 14.6 peak 55
+RISING                               query  value
+0                           upfirst  26700
+1                              aira  20500
+2                           ulio ai  18150
+3  medical receptionist jobs sydney   6450
+TOP                                 query  value
+0                virtual receptionist    100
+1  ai receptionist for small business     44
+2                        ai assistant     37
+3         ringcentral ai receptionist     32
+4                         ringcentral     32
+5                               music     24
+6                             upfirst      3
+7                                aira      2
+8                             ulio ai      2
+9    medical receptionist jobs sydney      1

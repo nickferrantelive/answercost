@@ -1,0 +1,33 @@
+today 5-y | ai receptionist | first quarter avg 0.0 | last quarter avg 20.1 | latest 11
+today 5-y | free ai credits | first quarter avg 0.0 | last quarter avg 22.7 | latest 10
+today 5-y | ai for etsy | first quarter avg 0.0 | last quarter avg 19.1 | latest 4
+today 5-y | openclaw skills | first quarter avg 0.0 | last quarter avg 15.7 | latest 1
+today 5-y | ai answering service | first quarter avg 0.0 | last quarter avg 5.5 | latest 3
+today 12-m | openclaw | first quarter avg 0.0 | last quarter avg 3.8 | latest 2
+today 12-m | hermes agent | first quarter avg 0.0 | last quarter avg 2.7 | latest 2
+today 12-m | claude code | first quarter avg 13.3 | last quarter avg 22.2 | latest 21
+today 12-m | cursor ai | first quarter avg 3.8 | last quarter avg 1.7 | latest 1
+today 12-m | chatgpt plus vs | first quarter avg 1.4 | last quarter avg 0.3 | latest 0
+today 12-m | ai agent for small business | first quarter avg 5.7 | last quarter avg 0.4 | latest 2
+today 12-m | ai automation agency | first quarter avg 16.3 | last quarter avg 8.0 | latest 6
+today 12-m | ai receptionist | first quarter avg 30.1 | last quarter avg 34.0 | latest 23
+today 12-m | ai tools for realtors | first quarter avg 0.0 | last quarter avg 0.0 | latest 0
+today 12-m | ai for plumbers | first quarter avg 4.2 | last quarter avg 1.4 | latest 1
+openclaw RISING
+                  query   value
+0              shop lc  184200
+1              quad ed  154850
+2              elixamd  145300
+3        medvi reviews  107700
+4        what is medvi  102750
+5       embody reviews  101800
+6               shoplc   92000
+7         shop lc live   75700
+8           shoplc com   63550
+9          quad for ed   62900
+10  medvi quad reviews   61350
+11   medvi weight loss   60000
+free ai credits RISING
+                      query   value
+0       bet365 bet credits  470650
+1  free ai video generator      40
