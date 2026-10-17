@@ -4,6 +4,6 @@ export default {
   output: isPages ? "export" : undefined,
   basePath: base,
   images: { unoptimized: true },
-  trailingSlash: isPages,
+  trailingSlash: true,
   env: { NEXT_PUBLIC_BASE_PATH: base },
 };
