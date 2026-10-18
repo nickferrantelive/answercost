@@ -27,7 +27,7 @@ export default function Page() {
     <h2>What we will not sell</h2>
     <ul className="not"><li>Rank. Tables stay sorted by published price.</li><li>Edits to your price or a competitor's. Prices come from public sources only.</li><li>Unlabeled placements or fake reviews.</li></ul>
     <h2>Book a slot</h2>
-    {link ? <p><TrackLink className="btn" href={link} external rel="noopener" event="sponsor_cta_click" props={{ cta: "book_slot" }}>Book a sponsor slot</TrackLink></p> : <p className="label">Checkout opens soon (Stripe payment link placeholder: NEXT_PUBLIC_STRIPE_SPONSOR_LINK). Placements start once checkout is live.</p>}
+    {link ? <p><TrackLink className="btn" href={link} external rel="noopener" event="sponsor_cta_click" props={{ cta: "book_slot" }}>Book a sponsor slot</TrackLink></p> : <p className="label">Checkout opens soon. Placements start once checkout is live.</p>}
     <p className="muted">Questions about fit? See our <Link href="/about/">disclosure</Link>.</p>
   </>);
 }
