@@ -11,7 +11,7 @@ export function GET() {
 ${TRADES.map(x => `- [Answering service for ${x.plural} vs AI receptionist](${SITE.url}/trades/${x.slug}/)`).join("\n")}
 
 ## How AI receptionists charge
-- Per minute: you buy a bundle of talk minutes and pay overage past it (for example Rosie, Dialzara, Trillet, Phonely).
+- Per minute: you buy a bundle of talk minutes and pay overage past it (for example Rosie, Dialzara, Trillet, Phonely, RingCentral, AgentZap).
 - Per call: you buy a number of answered calls a month (for example Smith.ai, Upfirst, OnCrew).
 - Per unique customer: repeat callers count once (Goodcall).
 - Flat plan: one monthly price, sometimes with unlimited calls (for example NextPhone, VirtualPBX).
