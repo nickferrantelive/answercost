@@ -11,7 +11,7 @@ export default function Home() {
       <div className="hero-grid">
         <div>
           <h1>Stop overpaying to answer your phone.</h1>
-          <p className="lede">See what an AI receptionist costs next to a live answering service for your call volume and trade. Published prices start around $29 to $49 a month for AI, while live services run hundreds for 100 calls.</p>
+          <p className="lede">See what an AI receptionist costs next to a live answering service for your call volume and trade. Published AI plans start from about $10 to $50 a month, while live services run hundreds for 100 calls.</p>
           <ul className="trust" data-move="Trust: legitimate proof only, no testimonials">
             <li>{VENDORS.length} options compared</li><li>Every price sourced</li><li>Updated {LAST_CHECKED}</li><li>Sorted by price, not payment</li>
           </ul>
