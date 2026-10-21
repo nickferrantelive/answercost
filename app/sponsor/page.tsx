@@ -13,7 +13,7 @@ export default function Page() {
     </section>
     <h2>The buyers searching this</h2>
     <div className="cols">
-      <div className="card"><div className="price">~{total.toLocaleString("en-US")}</div><p>US searches a month for answering service and AI receptionist terms across 11 trades we cover. <a href={SOURCES.teamshift.url} target="_blank" rel="noopener nofollow">Teamshift</a></p></div>
+      <div className="card"><div className="price">~{total.toLocaleString("en-US")}</div><p>US searches a month for answering service and AI receptionist terms across the 11 trades on this site that use the Teamshift study. Medical offices use a different source and are not in this total. <a href={SOURCES.teamshift.url} target="_blank" rel="noopener nofollow">Teamshift</a></p></div>
       <div className="card"><div className="price">~$216</div><p>Average Google cost per click across the 12 industries in the study, up to about $405 for law firms. <a href={SOURCES.teamshift.url} target="_blank" rel="noopener nofollow">Teamshift</a></p></div>
       <div className="card"><div className="price">+203%</div><p>Year-over-year growth in "ai receptionist" searches, 12 months to June 2026. <a href={SOURCES.credminds.url} target="_blank" rel="noopener nofollow">Credminds</a></p></div>
     </div>

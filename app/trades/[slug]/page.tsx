@@ -15,7 +15,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const { slug } = await params; const t = TRADES.find(x => x.slug === slug); if (!t) notFound();
   const vs = vendorsForTrade(t);
   const faq = [
-    { q: `How much does an answering service cost for ${t.plural}?`, a: "Published estimates for 100 three-minute calls a month: PATLive about $479, Abby Connect (person) about $898, Smith.ai live about $915, per NextPhone's Oct 5, 2026 comparison." },
+    { q: `How much does an answering service cost for ${t.plural}?`, a: "Published figures we track: PATLive about $479 and Smith.ai live about $915 for 100 three-minute calls, per NextPhone's Oct 5, 2026 comparison. Abby Connect publishes its own plans from $164/mo for 50 Abby Minutes." },
     { q: `How much does an AI receptionist cost for ${t.plural}?`, a: "Published starting plans in our sources range from $10/mo (KaiCalls Backup, about 20 calls) and $49/mo (Rosie, 250 minutes) up to $449/mo (Sameday, 500 minutes). Some vendors only quote." },
     { q: "Should I pick AI or a live answering service?", a: "It depends on call volume, how complex calls are, and whether you need a person on urgent calls. Use the calculator with your own volume and confirm with vendors." },
   ];
