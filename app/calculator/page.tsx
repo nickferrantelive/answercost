@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Calculator from "@/components/Calculator";
 import Signup from "@/components/Signup";
 import { JsonLd } from "@/components/Src";
@@ -8,6 +9,7 @@ export default function Page() {
     <h1>What will it cost to answer your calls?</h1>
     <p className="lede">Two numbers in, every option out, sorted cheapest first.</p>
     <Calculator />
+    <p>The table estimates the plan that fits your minutes. It does not add overage, setup, or a required phone or software plan. <Link href="/price-sheet/#overage">See how those three fees change a quote</Link>.</p>
     <Signup />
   </>);
 }

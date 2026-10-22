@@ -15,8 +15,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const { slug } = await params; const t = TRADES.find(x => x.slug === slug); if (!t) notFound();
   const vs = vendorsForTrade(t);
   const faq = [
-    { q: `How much does an answering service cost for ${t.plural}?`, a: "Published figures we track: PATLive about $479 and Smith.ai live about $915 for 100 three-minute calls, per NextPhone's Oct 5, 2026 comparison. Abby Connect publishes its own plans from $164/mo for 50 Abby Minutes." },
-    { q: `How much does an AI receptionist cost for ${t.plural}?`, a: "Published starting plans in our sources range from $10/mo (KaiCalls Backup, about 20 calls) and $49/mo (Rosie, 250 minutes) up to $449/mo (Sameday, 500 minutes). Some vendors only quote." },
+    { q: `How much does an answering service cost for ${t.plural}?`, a: "PATLive publishes minute plans, including $479/mo for 300 minutes, which is 100 three-minute calls, and $759/mo for 500 minutes. Extra minutes on that $759 plan are $1.79. Smith.ai live receptionists publish $300/mo for 30 calls, $810 for 90, and $2,100 for 300, then $10.50 per extra call on the 90-call plan. NextPhone's Oct 5, 2026 comparison listed about $479 and about $915 for 100 three-minute calls. Those figures still match PATLive's 300-minute plan and Smith.ai Basic plus 10 calls at $10.50. Abby Connect publishes plans from $164/mo for 50 Abby Minutes." },
+    { q: `How much does an AI receptionist cost for ${t.plural}?`, a: "Published starting plans in our sources range from $10/mo (KaiCalls Backup, about 20 calls) and $49/mo (Rosie or Marlie, 250 minutes) up to $449/mo (Sameday, 500 minutes). Some vendors only quote. Overage after the included minutes or calls is a separate charge." },
     { q: "Should I pick AI or a live answering service?", a: "It depends on call volume, how complex calls are, and whether you need a person on urgent calls. Use the calculator with your own volume and confirm with vendors." },
   ];
   return (<>
@@ -41,6 +41,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     <p><TrackLink className="btn" href={`/calculator/?trade=${t.slug}`} event="cta_click" props={{ cta: "trade_see_cheapest", trade: t.slug }}>See the cheapest option for my volume</TrackLink></p>
     <h2>FAQ</h2>
     {faq.map(f => <div key={f.q}><h3>{f.q}</h3><p>{f.a}</p></div>)}
+    <p className="muted">Answers use the published prices in the table. Written by Vance, an AI. <Link href="/price-sheet/#overage">How overage, setup, and integration fees change these prices</Link>.</p>
     <nav aria-label="Other trades" className="related">
       <h2>Compare other trades</h2>
       <div className="grid">{TRADES.filter(x => x.slug !== t.slug).map(x => <Link key={x.slug} className="tcard" href={`/trades/${x.slug}/`}><b>Answering service for {x.plural}</b><span>vs AI receptionist &rarr;</span></Link>)}</div>
