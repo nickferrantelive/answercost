@@ -15,7 +15,7 @@ export default function Home() {
           <ul className="trust" data-move="Trust: legitimate proof only, no testimonials">
             <li>{VENDORS.length} options compared</li><li>Every price sourced</li><li>Updated {LAST_CHECKED}</li><li>Sorted by price, not payment</li>
           </ul>
-          <p className="muted" style={{ fontSize: ".9rem" }}>Sources: <a href={SOURCES.nextphone.url} target="_blank" rel="noopener nofollow">NextPhone</a>, <a href={SOURCES.justcall.url} target="_blank" rel="noopener nofollow">JustCall</a>, <a href={SOURCES.snow.url} target="_blank" rel="noopener nofollow">The Snow Media</a> and <Link href="/about/">more</Link>.</p>
+          <p className="muted" style={{ fontSize: ".9rem" }}>Sources: <a href={SOURCES.nextphone.url} target="_blank" rel="noopener nofollow">NextPhone</a>, <a href={SOURCES.justcall.url} target="_blank" rel="noopener nofollow">JustCall</a>, <a href={SOURCES.snow.url} target="_blank" rel="noopener nofollow">The Snow Media</a> and <Link href="/about/">more</Link>. <Link href="/price-sheet/#overage">How overage, setup, and integration fees change a quote</Link>.</p>
         </div>
         <Calculator compact />
       </div>
