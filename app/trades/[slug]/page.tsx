@@ -1,3 +1,5 @@
+import { pageMetadata } from "@/lib/metadata";
+import { formatDate } from "@/lib/date";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { TRADES, vendorsForTrade, LAST_CHECKED } from "@/lib/data";
@@ -5,11 +7,12 @@ import { Src, JsonLd } from "@/components/Src";
 import Signup from "@/components/Signup";
 import Calculator from "@/components/Calculator";
 import TrackLink from "@/components/TrackLink";
+import { TradeIcon, ArrowIcon } from "@/components/Icons";
 export const dynamicParams = false;
 export function generateStaticParams() { return TRADES.map(t => ({ slug: t.slug })); }
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params; const t = TRADES.find(x => x.slug === slug)!;
-  return { title: `Answering service for ${t.plural} vs AI receptionist: cost compared`, description: `Cheapest AI receptionist vs live answering service for ${t.plural}, using published prices checked ${LAST_CHECKED}. Run your own call volume.`, alternates: { canonical: `/trades/${t.slug}/` } };
+  return { title: `Answering service for ${t.plural} vs AI receptionist: cost compared`, description: `Cheapest AI receptionist vs live answering service for ${t.plural}, using published prices checked ${formatDate(LAST_CHECKED)}. Run your own call volume.`, ...pageMetadata(`/trades/${t.slug}/`) };
 }
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params; const t = TRADES.find(x => x.slug === slug); if (!t) notFound();
@@ -24,28 +27,32 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     <section className="hero" data-move="Recognition for this trade + the tool, above the fold">
       <div className="hero-grid">
         <div>
-          <p className="tag">{t.name}</p>
+          <p className="tag tag-trade"><TradeIcon slug={t.slug} className="ico" /> {t.name}</p>
           <h1>Answering service for {t.plural} vs AI receptionist</h1>
           <p className="lede">Enter your calls per month and see the cheapest published option for {t.plural}, next to what a live answering service costs.</p>
-          <ul className="trust"><li>{vs.length} options for {t.plural}</li><li>Sourced prices</li><li>Updated {LAST_CHECKED}</li></ul>
-          {t.searches && <p className="muted" style={{ fontSize: ".92rem" }}>About {t.searches.toLocaleString("en-US")} US searches a month for this, and advertisers pay {t.cpc} per click. <Src keys={[t.source]} /></p>}
+          <ul className="trust"><li>{vs.length} options for {t.plural}</li><li>Sourced prices</li><li>Updated {formatDate(LAST_CHECKED)}</li></ul>
+          {t.searches && <p className="sources">About {t.searches.toLocaleString("en-US")} US searches a month for this, and advertisers pay {t.cpc} per click. <Src keys={[t.source]} /></p>}
           {t.extra && <p className="label">{t.extra}</p>}
         </div>
         <Calculator initialTrade={t.slug} compact />
       </div>
     </section>
+    <section className="band" data-reveal>
     <h2>Published prices for {t.plural}</h2>
-    <div className="tablewrap"><table><thead><tr><th>Option</th><th>Type</th><th>Published price</th><th className="hide-sm">Model</th><th>Source</th></tr></thead><tbody>
-      {vs.map(v => <tr key={v.slug}><td><b>{v.name}</b></td><td>{v.kind === "human" ? "Live service" : "AI"}</td><td>{v.price}</td><td className="hide-sm">{v.model}</td><td><Src keys={v.source} /></td></tr>)}
+    <div className="tablewrap"><table className="stack" role="table"><thead role="rowgroup"><tr role="row"><th role="columnheader">Option</th><th role="columnheader">Type</th><th role="columnheader">Published price</th><th role="columnheader">Model</th><th role="columnheader">Source</th></tr></thead><tbody role="rowgroup">
+      {vs.map(v => <tr role="row" key={v.slug}><td role="cell" className="cell-name"><b>{v.name}</b></td><td role="cell" data-label="Type">{v.kind === "human" ? "Live service" : "AI"}</td><td role="cell" data-label="Published price">{v.price}</td><td role="cell" data-label="Model">{v.model}</td><td role="cell" data-label="Source"><Src keys={v.source} /></td></tr>)}
     </tbody></table></div>
-    <p><TrackLink className="btn" href={`/calculator/?trade=${t.slug}`} event="cta_click" props={{ cta: "trade_see_cheapest", trade: t.slug }}>See the cheapest option for my volume</TrackLink></p>
+    <p className="after"><TrackLink className="btn" href={`/calculator/?trade=${t.slug}`} event="cta_click" props={{ cta: "trade_see_cheapest", trade: t.slug }}>See the cheapest option for my volume <ArrowIcon className="ico" /></TrackLink></p>
+    </section>
+    <section className="band faq" data-reveal>
     <h2>FAQ</h2>
-    {faq.map(f => <div key={f.q}><h3>{f.q}</h3><p>{f.a}</p></div>)}
+    {faq.map(f => <div className="qa" key={f.q}><h3>{f.q}</h3><p>{f.a}</p></div>)}
     <p className="muted">Answers use the published prices in the table. Written by Vance, an AI. <Link href="/price-sheet/#overage">How overage, setup, and integration fees change these prices</Link>.</p>
-    <nav aria-label="Other trades" className="related">
+    </section>
+    <nav aria-label="Other trades" className="related band" data-reveal>
       <h2>Compare other trades</h2>
-      <div className="grid">{TRADES.filter(x => x.slug !== t.slug).map(x => <Link key={x.slug} className="tcard" href={`/trades/${x.slug}/`}><b>Answering service for {x.plural}</b><span>vs AI receptionist &rarr;</span></Link>)}</div>
-      <p><Link href="/price-sheet/">Full price sheet</Link> · <Link href="/vendors/">Vendor directory</Link> · <Link href="/calculator/">Cost calculator</Link></p>
+      <div className="grid trades">{TRADES.filter(x => x.slug !== t.slug).map(x => <Link key={x.slug} className="tcard" href={`/trades/${x.slug}/`}><TradeIcon slug={x.slug} className="tcard-ico" /><b>Answering service for {x.plural}</b><span>vs AI receptionist <ArrowIcon className="ico" /></span></Link>)}</div>
+      <p className="footlinks"><Link href="/price-sheet/">Full price sheet</Link><Link href="/vendors/">Vendor directory</Link><Link href="/calculator/">Cost calculator</Link></p>
     </nav>
     <Signup heading={`Get price changes for ${t.plural}, monthly`} />
   </>);

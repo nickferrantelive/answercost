@@ -1,8 +1,10 @@
+import { formatDate } from "@/lib/date";
+import { pageMetadata } from "@/lib/metadata";
 import Link from "next/link";
 import { VENDORS, LAST_CHECKED } from "@/lib/data";
 import { Src, JsonLd } from "@/components/Src";
 import Signup from "@/components/Signup";
-export const metadata = { title: "AI receptionist and answering service price sheet", description: `Every published price we track for AI receptionists, voice AI platforms and live answering services, plus how overage, setup, and integration fees change a quote. Updated ${LAST_CHECKED}.` };
+export const metadata = { ...pageMetadata("/price-sheet/"), title: "AI receptionist and answering service price sheet", description: `Every published price we track for AI receptionists, voice AI platforms and live answering services, plus how overage, setup, and integration fees change a quote. Updated ${formatDate(LAST_CHECKED)}.` };
 const groups: [string, string][] = [["ai", "AI receptionists (ready-made)"], ["platform", "Voice AI platforms (build it yourself)"], ["human", "Live answering services"]];
 const common = [
   { q: "How much does an AI receptionist cost per month?", a: "Published plans we track start at about $10 to $50 a month for a small bundle of calls or minutes, for example KaiCalls Backup at $10 for about 20 calls, AI-Receptionist.com at $14 for 75 minutes, Marlie at $49 for 250 minutes, and Rosie at $49 for 250 minutes. Higher tiers run from about $150 to $900 a month. Newo also lists pay as you go at $0 a month with 50 units once, then $1.75 a unit." },
@@ -20,18 +22,18 @@ const faq = [...common, ...usage];
 export default function Page() {
   return (<>
     <JsonLd data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }} />
-    <h1>The price sheet</h1>
-    <p className="lede">Every published starting price we track, with its source. Updated {LAST_CHECKED}. Free, no email needed.</p>
-    {groups.map(([k, title]) => (<section key={k}><h2>{title}</h2><div className="tablewrap"><table><thead><tr><th>Vendor</th><th>Published price</th><th className="hide-sm">Model</th><th>Source</th></tr></thead><tbody>
-      {VENDORS.filter(v => v.kind === k).map(v => <tr key={v.slug}><td><b>{v.name}</b></td><td>{v.price}</td><td className="hide-sm">{v.model}</td><td><Src keys={v.source} /></td></tr>)}
+    <header className="pagehead"><h1>The price sheet</h1>
+    <p className="lede">Every published starting price we track, with its source. Updated {formatDate(LAST_CHECKED)}. Free, no email needed.</p></header>
+    {groups.map(([k, title]) => (<section key={k} className="band" data-reveal><h2>{title}</h2><div className="tablewrap"><table className="stack" role="table"><thead role="rowgroup"><tr role="row"><th role="columnheader">Vendor</th><th role="columnheader">Published price</th><th role="columnheader">Model</th><th role="columnheader">Source</th></tr></thead><tbody role="rowgroup">
+      {VENDORS.filter(v => v.kind === k).map(v => <tr role="row" key={v.slug}><td role="cell" className="cell-name"><b>{v.name}</b></td><td role="cell" data-label="Published price">{v.price}</td><td role="cell" data-label="Model">{v.model}</td><td role="cell" data-label="Source"><Src keys={v.source} /></td></tr>)}
     </tbody></table></div></section>))}
-    <section id="overage">
+    <section id="overage" className="band faq" data-reveal>
       <h2>Overage, per-minute usage, and the three parts of a quote</h2>
       <p className="lede">Buyers keep asking what happens after the included minutes or calls run out. Split a quote into setup, usage, and integration, then compare the same unit. The examples below use only prices published on the vendor pages linked in the tables. The same vendors are listed in the <Link href="/vendors/">directory</Link>, and you can run your own volume in the <Link href="/calculator/">calculator</Link>.</p>
-      {usage.map(f => (<div key={f.q}><h3>{f.q}</h3><p>{f.a}</p></div>))}
-      <p className="muted">Worked examples use the published prices above as of {LAST_CHECKED}. Written by Vance, an AI. <Link href="/vendors/#test-before-you-buy">How to test an AI receptionist before you buy</Link>.</p>
+      {usage.map(f => (<div className="qa" key={f.q}><h3>{f.q}</h3><p>{f.a}</p></div>))}
+      <p className="muted">Worked examples use the published prices above as of {formatDate(LAST_CHECKED)}. Written by Vance, an AI. <Link href="/vendors/#test-before-you-buy">How to test an AI receptionist before you buy</Link>.</p>
     </section>
-    <section><h2>Common questions</h2>{common.map(f => (<div key={f.q}><h3>{f.q}</h3><p>{f.a}</p></div>))}<p className="muted">Answers summarize the published prices above as of {LAST_CHECKED}. Written by Vance, an AI.</p></section>
+    <section className="band faq" data-reveal><h2>Common questions</h2>{common.map(f => (<div className="qa" key={f.q}><h3>{f.q}</h3><p>{f.a}</p></div>))}<p className="muted">Answers summarize the published prices above as of {formatDate(LAST_CHECKED)}. Written by Vance, an AI.</p></section>
     <Signup heading="Get this sheet updated monthly" />
   </>);
 }

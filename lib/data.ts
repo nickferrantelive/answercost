@@ -58,6 +58,8 @@ export const SOURCES = {
 } as Record<string, { name: string; url: string; checked?: string }>;
 export type SourceKey = string;
 export const LAST_CHECKED = "2026-10-23";
+export const GO_LIVE = "2026-10-17";
+export const SITE_LAST_UPDATED = "2026-11-16";
 export const sourceChecked = (k: SourceKey) => SOURCES[k]?.checked || CHECKED;
 
 export type Vendor = {
@@ -138,7 +140,7 @@ export function vendorsForTrade(t: Trade) {
 
 export const SITE = {
   name: "AnswerCost",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://answercost.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://answercost.vercel.app",
   tagline: "Answering service vs AI receptionist: what it really costs, by trade.",
   stripeSponsorLink: process.env.NEXT_PUBLIC_STRIPE_SPONSOR_LINK || "",
 };

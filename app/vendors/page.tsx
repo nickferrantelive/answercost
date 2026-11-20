@@ -1,7 +1,9 @@
+import { formatDate } from "@/lib/date";
+import { pageMetadata } from "@/lib/metadata";
 import Link from "next/link";
 import { VENDORS } from "@/lib/data";
 import { Src, JsonLd } from "@/components/Src";
-export const metadata = { title: "AI receptionist and answering service vendor directory", description: "Every vendor we track, and how to split a quote into setup fees, usage or per-minute costs, and integration costs." };
+export const metadata = { ...pageMetadata("/vendors/"), title: "AI receptionist and answering service vendor directory", description: "Every vendor we track, and how to split a quote into setup fees, usage or per-minute costs, and integration costs." };
 const faq: { q: string; a: string; id?: string }[] = [
   { q: "How should I split an AI receptionist quote?", a: "Read it as three bills. Setup is a one-time fee to turn the agent on. Usage is the monthly allowance of minutes, calls, or conversations, plus any overage after that allowance. Integration is the phone system, the CRM, or a required software plan the receptionist sits on. A low monthly price can still need all three." },
   { q: "Which vendors publish a setup fee?", a: "AgentZap lists a $499 one-time setup, waived on a 6-month Professional term. Abby Connect's pricing page says there is no setup fee. Allo's pricing page says there are no setup fees. Smith.ai live receptionists list no setup fee. Newo's pricing page says there are no setup costs. KaiCalls' pricing page says there is no setup fee. Roofr's AI receptionist page says there is no setup fee. If a vendor does not publish a setup fee, ask before you sign. A missing line is not the same as zero." },
@@ -13,16 +15,16 @@ export default function Page() {
   return (<>
     <JsonLd data={{ "@context": "https://schema.org", "@type": "ItemList", itemListElement: VENDORS.map((v, i) => ({ "@type": "ListItem", position: i + 1, item: { "@type": v.kind === "human" ? "ProfessionalService" : "SoftwareApplication", name: v.name, ...(v.kind === "human" ? {} : { applicationCategory: "BusinessApplication" }), ...(v.website ? { url: v.website } : {}) } })) }} />
     <JsonLd data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }} />
-    <h1>Vendor directory</h1>
-    <p>Listings are not ranked. Links marked "partner link" may earn us a commission at no cost to you.</p>
-    <section>
+    <header className="pagehead"><h1>Vendor directory</h1>
+    <p className="lede">Listings are not ranked. Links marked "partner link" may earn us a commission at no cost to you.</p></header>
+    <section className="band faq">
       <h2>How to read a quote</h2>
       <p className="lede">Separate setup, usage, and integration before you compare two sticker prices.</p>
-      {faq.map(f => (<div key={f.q} id={f.id}><h3>{f.q}</h3><p>{f.a}</p></div>))}
+      {faq.map(f => (<div className="qa" key={f.q} id={f.id}><h3>{f.q}</h3><p>{f.a}</p></div>))}
       <p className="muted">Answers describe the published prices in the table below. Written by Vance, an AI. <Link href="/price-sheet/#overage">Worked examples for overage and per-minute math</Link>.</p>
     </section>
-    <div className="tablewrap"><table><thead><tr><th>Vendor</th><th>Type</th><th>Published price</th><th>Model</th><th>Notes</th><th>Source</th><th>Visit</th></tr></thead><tbody>
-      {VENDORS.map(v => { const href = v.affiliateUrl || v.website; return (<tr key={v.slug} id={v.slug}><td>{v.name}</td><td>{v.kind}</td><td>{v.price}</td><td>{v.model}</td><td>{v.notes}</td><td><Src keys={v.source} /></td><td>{href ? <a href={href} target="_blank" rel={v.affiliateUrl ? "sponsored noopener" : "noopener nofollow"}>{v.affiliateUrl ? "Visit (partner link)" : "Visit"}</a> : "n/a"}</td></tr>); })}
-    </tbody></table></div>
+    <section className="band" data-reveal><div className="tablewrap"><table className="stack stack-wide" role="table"><thead role="rowgroup"><tr role="row"><th role="columnheader">Vendor</th><th role="columnheader">Type</th><th role="columnheader">Published price</th><th role="columnheader">Model</th><th role="columnheader">Notes</th><th role="columnheader">Source</th><th role="columnheader">Visit</th></tr></thead><tbody role="rowgroup">
+      {VENDORS.map(v => { const href = v.affiliateUrl || v.website; return (<tr role="row" key={v.slug} id={v.slug}><td role="cell" className="cell-name"><b>{v.name}</b></td><td role="cell" data-label="Type">{v.kind}</td><td role="cell" data-label="Published price">{v.price}</td><td role="cell" data-label="Model">{v.model}</td><td role="cell" data-label="Notes" className="cell-notes">{v.notes.replace(/\b\d{4}-\d{2}-\d{2}\b/g, formatDate)}</td><td role="cell" data-label="Source"><Src keys={v.source} /></td><td role="cell" data-label="Visit">{href ? <a href={href} target="_blank" rel={v.affiliateUrl ? "sponsored noopener" : "noopener nofollow"}>{v.affiliateUrl ? "Visit (partner link)" : "Visit"}<span className="sr"> {v.name}</span></a> : "n/a"}</td></tr>); })}
+    </tbody></table></div></section>
   </>);
 }
